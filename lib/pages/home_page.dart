@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:todo_em/utility/dialog_box.dart';
 import 'package:todo_em/utility/todo_til.dart';
 
@@ -10,6 +11,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _myBox = Hive.openBox('mybox');
+
+  final _controller = TextEditingController();
+
   //list of todo tasks
 
   List toDoList = [
@@ -23,12 +28,32 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void saveNewTask() {
+    setState(() {
+      _controller.text.isNotEmpty
+          ? toDoList.add([_controller.text, false])
+          : null;
+      _controller.clear();
+    });
+    Navigator.of(context).pop();
+  }
+
   void createNewTask() {
     showDialog(
         context: context,
         builder: (context) {
-          return DialogBox();
+          return DialogBox(
+            controller: _controller,
+            onSave: saveNewTask,
+            onCancel: () => Navigator.of(context).pop(),
+          );
         });
+  }
+
+  void deletetask(int index) {
+    setState(() {
+      toDoList.removeAt(index);
+    });
   }
 
   @override
@@ -48,9 +73,11 @@ class _HomePageState extends State<HomePage> {
           itemCount: toDoList.length,
           itemBuilder: (context, index) {
             return ToDoTile(
-                taskname: toDoList[index][0],
-                taskCompleted: toDoList[index][1],
-                onChanged: (value) => checkBoxChanged(value, index));
+              taskname: toDoList[index][0],
+              taskCompleted: toDoList[index][1],
+              onChanged: (value) => checkBoxChanged(value, index),
+              deletefunction: (context) => deletetask(index),
+            );
           },
         ));
   }
