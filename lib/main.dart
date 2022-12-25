@@ -8,18 +8,33 @@ void main() async {
 
   var box = await Hive.openBox('mybox');
 
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MaterialColor mycolor = const MaterialColor(
+    0xFFe4ba4c,
+    <int, Color>{
+      50: Color(0xFFe4ba4c),
+      100: Color(0xFFe4ba4c),
+      200: Color(0xFFe4ba4c),
+      300: Color(0xFFe4ba4c),
+      400: Color(0xFFe4ba4c),
+      500: Color(0xFFe4ba4c),
+      600: Color(0xFFe4ba4c),
+      700: Color(0xFFe4ba4c),
+      800: Color(0xFFe4ba4c),
+      900: Color(0xFFe4ba4c),
+    },
+  );
+  MyApp({super.key});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.lime),
+      theme: ThemeData(primarySwatch: mycolor),
       home: const HomePage(),
     );
   }

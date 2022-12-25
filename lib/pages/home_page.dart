@@ -76,7 +76,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.lime[200],
+        backgroundColor: const Color.fromARGB(255, 255, 214, 125),
         appBar: AppBar(
           title: const Text("TO DO"),
           centerTitle: true,
